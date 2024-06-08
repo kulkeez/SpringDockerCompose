@@ -24,7 +24,7 @@ import org.springframework.context.annotation.Description;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.kulkeez.demo.model.Employee;
-import com.kulkeez.demo.repository.EmployeeJDBCRepository;
+import com.kulkeez.demo.repository.EmployeeRepository;
 
 /**
  * 
@@ -80,7 +80,7 @@ public class SpringDataApplication {
     public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
         return args -> {
 
-            log.info("Let's inspect the beans provided by Spring Boot for Quartz:");
+            log.info("Let's inspect the beans provided by Spring Boot for JPA:");
 
             String[] beanNames = ctx.getBeanDefinitionNames();
             Arrays.sort(beanNames);
@@ -95,8 +95,7 @@ public class SpringDataApplication {
             }
         	
             log.info("Total Beans available in the Spring Container: " + ctx.getBeanDefinitionCount());
-            
-        	
+
         };
     }
 	
