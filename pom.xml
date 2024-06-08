@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.kulkeez</groupId>
+	<artifactId>spring-docker-compose</artifactId>
+	<version>0.0.1</version>
+	<packaging>jar</packaging>
+
+	<name>Using Spring Boot Data JPA with PostgreSQL and Docker Compose</name>
+	<description>Spring Boot application that demonstrates using Spring JPA with PostgreSQL Database and Spring Docker Compose</description>
+	<inceptionYear>2024</inceptionYear>
+
+	<!-- Inherit defaults from Spring Boot -->
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.3.0</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+
+	<developers>
+		<developer>
+      		<id>kulkeez</id>
+      		<name>Vikram Kulkarni</name>
+      		<email>kulkeez@yahoo.com</email>
+      		<url>http://www.hpe.com</url>
+			<roles>
+				<role>Programmer</role>
+			</roles>
+			<timezone>+5</timezone>  
+		</developer>
+  	</developers>
+	
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>17</java.version>
+		<requireMavenVersion>3.9.0</requireMavenVersion>
+		<downloadSources>true</downloadSources>
+        <downloadJavadocs>true</downloadJavadocs>		
+	</properties>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <!-- This profile is active by default.
+                     When this profile is active, only unit tests are run -->
+                <activeByDefault>true</activeByDefault>
+                
+                <!-- activate if system properties 'env=dev' -->
+                <property>
+                    <name>env</name>
+                    <value>dev</value>
+                </property>
+            </activation>
+            <properties>
+            	<maven.test.skip>false</maven.test.skip>
+            </properties>		
+        </profile>
+        
+        <profile>
+            <id>prod</id>
+            <activation>
+                <!-- activate if system properties 'env=prod' -->
+                <property>
+                    <name>env</name>
+                    <value>prod</value>
+                </property>
+            </activation>
+            <properties>
+            </properties>
+        </profile>
+               
+    </profiles>
+	
+	<dependencies>
+
+		<!--  By default, Spring Boot use Tomcat as the default embedded server.  	-->
+		<!--  This dependency is required to view the H2 Console 					-->				
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		
+		<!--  Enable Actuator endpoints for monitoring health. A new set of RESTful end points 
+		      are added to the application such as /actuator/env, /actuator/health, 
+			  /actuator/info, /actuator/metrics, /actuator/trace and /actuator/dump 
+		-->
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>	
+				       			
+		<!-- hot swapping, disable cache for template, enable live reload -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+        
+		<dependency>
+		   <groupId>org.springframework.boot</groupId>
+		   <artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+
+		<!--
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>  
+
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+			<version>3.1.0</version>
+        </dependency> -->
+
+        <!-- PostgreSQL database -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+		<!--  To avoid boilerplate code i.e. need for declaring an instance of a logger -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+		
+		<dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+			<scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+
+	</dependencies>
+
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+                	<execution>
+                    	<goals>
+                        	<goal>build-info</goal>
+                    	</goals>
+                	</execution>
+            	</executions>
+			</plugin>
+		</plugins>
+		
+		<!-- share the same plugin configuration across all project modules -->
+		<!-- and lock down plugin versions to avoid using Maven defaults    -->
+		<pluginManagement>
+		  <plugins>
+		  						
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>${maven.enforcer.plugin}</version>
+				<executions>
+					<execution>
+						<id>enforce-versions</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<requireMavenVersion>
+									<version>${requireMavenVersion}</version>
+								</requireMavenVersion>
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<!-- display active profile in compile phase -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-help-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>show-profiles</id>
+						<phase>none</phase>  <!--  change to 'compile' to debug & troubleshoot -->
+						<goals>
+							<goal>active-profiles</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>   						
+				
+		  </plugins>
+		</pluginManagement>
+		
+	</build>
+
+    <repositories>
+        <repository>
+            <id>spring-milestone</id>
+            <name>Spring Milestone Repository</name>
+            <url>https://repo.spring.io/milestone</url>
+			<snapshots>
+            	<enabled>true</enabled>
+        	</snapshots>       			
+        </repository>
+        <repository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>https://repo.spring.io/snapshot</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>		
+    </repositories>
+    
+</project>

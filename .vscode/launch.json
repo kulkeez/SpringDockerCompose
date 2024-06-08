@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-SpringDataApplication<spring-data>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.kulkeez.SpringDataApplication",
+            "projectName": "spring-data",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
