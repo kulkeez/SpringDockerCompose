@@ -44,8 +44,8 @@ public class HelloController {
     	HashMap<String, String> map = new HashMap<>();
 
 	    map.put("Date", new Date().toString());
-	    map.put("Message", "Greetings from Spring Data Application !");
-        	
+	    map.put("Message", "Greetings from Spring Data JPA Application using Postgres Database with Docker compose !");
+
         return map;
     }
 
