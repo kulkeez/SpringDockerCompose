@@ -79,8 +79,8 @@
 	
 	<dependencies>
 
-		<!--  By default, Spring Boot use Tomcat as the default embedded server.  	-->
-		<!--  This dependency is required to view the H2 Console 					-->				
+		<!--  By default, Spring Boot use Tomcat as the default embedded server.  					-->
+		<!--  This dependency is required to view the H2 Console (if using H2 in-memory database) 	-->				
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -123,7 +123,7 @@
 			<optional>true</optional>
 		</dependency>		
 
-		<!-- for using standard validation annotations-->
+		<!-- for using standard validation annotations @NotNull, @Size within model classes -->
 		<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>

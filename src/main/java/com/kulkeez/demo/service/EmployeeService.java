@@ -26,4 +26,13 @@ public class EmployeeService {
     public List<Employee> retrieveAllEmployees() {
         return repository.findAll();
     }
+
+    /**
+     * Return an Employee based on Id supplied
+     * 
+     * @return Employee the Employee searched by Id  
+     */
+	public Employee retrieveEmployeeById(Long employeeId) {
+		return repository.findById(employeeId).orElse(null);
+	}    
 }
