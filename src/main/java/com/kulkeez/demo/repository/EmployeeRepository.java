@@ -19,6 +19,6 @@ import com.kulkeez.demo.model.Employee;
 // and marks this java class as a bean so the component-scanning mechanism of Spring can pick it up 
 // and pull it into the application context.
 @Repository
-public interface EmployeeRepository extends JpaRepository <Employee, Integer>{
+public interface EmployeeRepository extends JpaRepository <Employee, Long>{
 
 }

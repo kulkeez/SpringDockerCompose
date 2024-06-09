@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
  * @RequestMapping maps / to the index() method. When invoked from a browser or using 
  * curl on the command line, the method returns pure text.
  * 
- * @author kulkeez
+ * @author <a href="mailto:kulkeez@yahoo.com">Vikram Kulkarni</a> 
  *
  */
 @RestController
